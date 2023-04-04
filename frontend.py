@@ -25,9 +25,9 @@ def home():
     else:
         return render_template("index.html", message="Failed to Connect to Database")
 
-@app.route("/employee")
-def employee():
-    return render_template("employee.html")
+@app.route("/<selected_table>")
+def display_table(selected_table):
+    return render_template(f"{selected_table}.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
