@@ -1,0 +1,73 @@
+body {
+	background-image: url('airplane.jpg');
+	background-size: cover;
+	background-position: center;
+  }
+  
+  .container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	padding: 2rem;
+  }
+  
+  h1 {
+	font-size: 4rem;
+	margin: 0;
+  }
+  
+  p {
+	font-size: 2rem;
+	margin: 0;
+  }
+  
+  .dropdown {
+	position: relative;
+	display: inline-block;
+  }
+  
+  select {
+	position: relative;
+	z-index: 2;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	font-size: 1.2rem;
+	color: #444;
+	padding: 0.5rem;
+	border: 1px solid #ccc;
+	background-color: #fff;
+	cursor: pointer;
+  }
+  
+  select:focus {
+	outline: none;
+	border-color: #888;
+	box-shadow: 0 0 5px #888;
+  }
+  
+  #dropdowns {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	margin-top: 20px;
+  }
+  
+  #choose-btn {
+	background-color: #4CAF50;
+	color: white;
+	font-size: 1.2rem;
+	border: none;
+	cursor: pointer;
+	padding: 1rem;
+	margin-left: 1rem;
+	transition: all 0.3s ease-in-out;
+  }
+  
+  #choose-btn:hover {
+	background-color: #3e8e41;
+  }
+  

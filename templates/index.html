@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Top Gun</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body
+    style="
+      background-image: url('/Users/yaseenahmed/Workspace/AUC/Academics/Spring 2023 (VT)/Data Base Mgt Systems/Project/Phase 1/Source Code copy/templates/airplane.jpg');
+    "
+  >
+    <div class="container">
+      <h1>Top Gun</h1>
+      <p>Managing your airline needs</p>
+      <div id="dropdowns">
+        <div class="dropdown">
+          <select id="tables-dropdown">
+            {% for table in tables %}
+            <option value="{{ table }}">{{ table }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <button id="choose-btn">Choose</button>
+      </div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
+</html>
