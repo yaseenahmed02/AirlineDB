@@ -2,11 +2,14 @@
 <html>
   <head>
     <title>Top Gun</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
   </head>
   <body
     style="
-      background-image: url('/Users/yaseenahmed/Workspace/AUC/Academics/Spring 2023 (VT)/Data Base Mgt Systems/Project/Phase 1/Source Code copy/templates/airplane.jpg');
+      background-image: url('/templates/airplane.jpg');
     "
   >
     <div class="container">
@@ -23,6 +26,14 @@
         <button id="choose-btn">Choose</button>
       </div>
     </div>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+      const chooseBtn = document.getElementById("choose-btn");
+      const tablesDropdown = document.getElementById("tables-dropdown");
+
+      chooseBtn.addEventListener("click", function () {
+        const selectedTable = tablesDropdown.value;
+        window.location.href = "/employee";
+      });
+    </script>
   </body>
 </html>
