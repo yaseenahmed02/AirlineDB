@@ -22,14 +22,6 @@
         <button id="choose-btn">Choose</button>
       </div>
     </div>
-    <script>
-      const chooseBtn = document.getElementById("choose-btn");
-      const tablesDropdown = document.getElementById("tables-dropdown");
-
-      chooseBtn.addEventListener("click", function () {
-        const selectedTable = tablesDropdown.value;
-        window.location.href = "/employee";
-      });
-    </script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
   </body>
 </html>
