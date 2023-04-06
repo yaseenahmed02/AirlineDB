@@ -66,5 +66,37 @@ def add_customer_data():
     # Return a success message
     return jsonify({'status': 'success'})
 
+from flask import jsonify
+
+@app.route('/customer_data')
+def get_customer_data():
+    cnx = pool.get_connection()
+    cursor = cnx.cursor()
+    query = ("SELECT * FROM Customer")
+    cursor.execute(query)
+    data = cursor.fetchall()
+    column_names = [desc[0] for desc in cursor.description]  # Get column names
+    cursor.close()
+    cnx.close()
+
+    # Convert tuples to list of dictionaries
+    data = [dict(zip(column_names, row)) for row in data]
+
+    return jsonify(data)
+
+@app.route('/delete_customer', methods=['POST'])
+def delete_customer():
+    customer_id = request.form['CustomerId']
+    cnx = pool.get_connection()
+    cursor = cnx.cursor()
+    query = "DELETE FROM Customer WHERE ID = %s"
+    cursor.execute(query, (customer_id,))
+    cnx.commit()
+    cursor.close()
+    cnx.close()
+    return "Customer deleted successfully"
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)
