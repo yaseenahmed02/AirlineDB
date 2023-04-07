@@ -104,44 +104,44 @@
           let tableHtml = "<table>";
           tableHtml +=
             "<tr><th>First Name</th><th>Last Name</th><th>Date of Birth</th><th>Gender</th><th>Passport Number</th><th>Phone Number</th><th>Email Address</th></tr>";
-          for (let i = 0; i < customers.length; i++) {
-            tableHtml += "<tr>";
-            if (customers[i].hasOwnProperty("First")) {
-              tableHtml += "<td>" + customers[i].First + "</td>";
-            } else {
-              tableHtml += "<td></td>";
-            }
-            if (customers[i].hasOwnProperty("Last")) {
-              tableHtml += "<td>" + customers[i].Last + "</td>";
-            } else {
-              tableHtml += "<td></td>";
-            }
-            if (customers[i].hasOwnProperty("DOB")) {
-              tableHtml += "<td>" + customers[i].DOB + "</td>";
-            } else {
-              tableHtml += "<td></td>";
-            }
-            if (customers[i].hasOwnProperty("Gender")) {
-              tableHtml += "<td>" + customers[i].Gender + "</td>";
-            } else {
-              tableHtml += "<td></td>";
-            }
-            if (customers[i].hasOwnProperty("Passport_Number")) {
-              tableHtml += "<td>" + customers[i].Passport_Number + "</td>";
-            } else {
-              tableHtml += "<td></td>";
-            }
-            if (customers[i].hasOwnProperty("Phone_Number")) {
-              tableHtml += "<td>" + customers[i].Phone_Number + "</td>";
-            } else {
-              tableHtml += "<td></td>";
-            }
-            if (customers[i].hasOwnProperty("Email_Address")) {
-              tableHtml += "<td>" + customers[i].Email_Address + "</td>";
-            } else {
-              tableHtml += "<td></td>";
-            }
-            tableHtml += "</tr>";
+            for (let i = 0; i < customers.length; i++) {
+              tableHtml += "<tr>";
+              if (customers[i].hasOwnProperty("First")) {
+                tableHtml += "<td>" + customers[i].First + "</td>";
+              } else {
+                tableHtml += "<td></td>";
+              }
+              if (customers[i].hasOwnProperty("Last")) {
+                tableHtml += "<td>" + customers[i].Last + "</td>";
+              } else {
+                tableHtml += "<td></td>";
+              }
+              if (customers[i].hasOwnProperty("DOB")) {
+                tableHtml += "<td>" + customers[i].DOB + "</td>";
+              } else {
+                tableHtml += "<td></td>";
+              }
+              if (customers[i].hasOwnProperty("Gender")) {
+                tableHtml += "<td>" + customers[i].Gender + "</td>";
+              } else {
+                tableHtml += "<td></td>";
+              }
+              if (customers[i].hasOwnProperty("Passport_Number")) {
+                tableHtml += "<td>" + customers[i].Passport_Number + "</td>";
+              } else {
+                tableHtml += "<td></td>";
+              }
+              if (customers[i].hasOwnProperty("Phone_Number")) {
+                tableHtml += "<td>" + customers[i].Phone_Number + "</td>";
+              } else {
+                tableHtml += "<td></td>";
+              }
+              if (customers[i].hasOwnProperty("Email_Address")) {
+                tableHtml += "<td>" + customers[i].Email_Address + "</td>";
+              } else {
+                tableHtml += "<td></td>";
+              }
+            tableHtml += "<td><button type=\"delete\">Delete</button></td></tr>";
           }
           tableHtml += "</table>";
           document.getElementById("customerTable").innerHTML = tableHtml;
