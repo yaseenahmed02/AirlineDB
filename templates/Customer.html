@@ -137,7 +137,8 @@
               } else {
                 tableHtml += "<td></td>";
               }
-            tableHtml += "<td><button type=\"delete\">Delete</button></td></tr>";
+              tableHtml += "<td><button id='deleteCustomer_" + i + "' class='delete-button'>Delete</button></td>";
+            tableHtml += "</tr>";
           }
           tableHtml += "</table>";
           document.getElementById("customerTable").innerHTML = tableHtml;
@@ -147,28 +148,36 @@
       // Send the request
       xhr2.send();
 
-      function deleteCustomer(customerId) {
-      const xhr = new XMLHttpRequest();
-      xhr.open("POST", "/delete_customer_data", true);
-      xhr.setRequestHeader(
-        "Content-Type",
-        "application/x-www-form-urlencoded"
-      );
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-          alert("Customer deleted successfully");
-          window.location.href = "/";
-        }
-      };
-      const data = "id=" + encodeURIComponent(customerId);
-      xhr.send(data);
-    }
+      document.getElementById("customerTable").addEventListener("click", function (e) {
+      if (e.target && e.target.className == "delete-button") {
+        const customerId = e.target.id.split("_")[1];
 
-    const table = document.getElementById("customerTable");
-    table.addEventListener("click", function (event) {
-      if (event.target.classList.contains("delete")) {
-        const customerId = event.target.getAttribute("data-id");
-        deleteCustomer(customerId);
+        // create a new XMLHttpRequest object
+        const xhr3 = new XMLHttpRequest();
+
+        // set the URL and method for the request
+        xhr3.open(
+          "POST",
+          "/delete_customer?CustomerId=" + encodeURIComponent(customerId),
+          true
+        );
+
+        // set the content type for the request
+        xhr3.setRequestHeader(
+          "Content-Type",
+          "application/x-www-form-urlencoded"
+        );
+
+        // define the callback function for the request
+        xhr3.onreadystatechange = function () {
+          if (xhr3.readyState === 4 && xhr3.status === 200) {
+            alert("Customer information deleted successfully");
+            window.location.href = "/";
+          }
+        };
+
+        // send the request with the data string
+        xhr3.send();
       }
     });
     </script>
