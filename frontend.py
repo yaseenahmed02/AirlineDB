@@ -97,6 +97,5 @@ def delete_customer():
     return "Customer deleted successfully"
 
 
-
 if __name__ == "__main__":
     app.run(debug=True)

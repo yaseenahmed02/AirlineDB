@@ -147,7 +147,6 @@
 
       // Send the request
       xhr2.send();
-
       document.getElementById("customerTable").addEventListener("click", function (e) {
       if (e.target && e.target.className == "delete-button") {
         const customerId = e.target.id.split("_")[1];
@@ -156,11 +155,7 @@
         const xhr3 = new XMLHttpRequest();
 
         // set the URL and method for the request
-        xhr3.open(
-          "POST",
-          "/delete_customer?CustomerId=" + encodeURIComponent(customerId),
-          true
-        );
+        xhr3.open("POST", "/delete_customer" + encodeURIComponent(customerId), true);
 
         // set the content type for the request
         xhr3.setRequestHeader(
