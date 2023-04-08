@@ -5,21 +5,25 @@
   <body>
     <form id="addCustomerDataForm">
       <label for="First">First Name:</label>
-      <input type="text" id="First" name="First"/><br/><br/>
+      <input type="text" id="First" name="First" /><br /><br />
       <label for="Middle">Middle Name:</label>
-      <input type="text" id="Middle" name="Middle"/><br/><br/>
+      <input type="text" id="Middle" name="Middle" /><br /><br />
       <label for="Last">Last Name:</label>
-      <input type="text" id="Last" name="Last"/><br/><br/>
+      <input type="text" id="Last" name="Last" /><br /><br />
       <label for="DOB">Date of Birth:</label>
-      <input type="date" id="DOB" name="DOB"/><br/><br/>
+      <input type="date" id="DOB" name="DOB" /><br /><br />
       <label for="Gender">Gender:</label>
-      <input type="text" id="Gender" name="Gender"/><br/><br/>
+      <input type="text" id="Gender" name="Gender" /><br /><br />
       <label for="Passport_Number">Passport Number:</label>
-      <input type="text" id="Passport_Number" name="Passport_Number"/><br/><br/>
+      <input
+        type="text"
+        id="Passport_Number"
+        name="Passport_Number"
+      /><br /><br />
       <label for="Phone_Number">Phone_Number:</label>
-      <input type="text" id="Phone_Number" name="Phone_Number"/><br/><br/>
+      <input type="text" id="Phone_Number" name="Phone_Number" /><br /><br />
       <label for="Email_Address">Email Address:</label>
-      <input type="email" id="Email_Address" name="Email_Address"><br/><br/>
+      <input type="email" id="Email_Address" name="Email_Address" /><br /><br />
 
       <button type="submit">Sign Up</button>
     </form>
@@ -99,45 +103,49 @@
           const customers = JSON.parse(xhr2.responseText);
           let tableHtml = "<table>";
           tableHtml +=
-            "<tr><th>First Name</th><th>Last Name</th><th>Date of Birth</th><th>Gender</th><th>Passport Number</th><th>Phone Number</th><th>Email Address</th></tr>";
-            for (let i = 0; i < customers.length; i++) {
-              tableHtml += "<tr>";
-              if (customers[i].hasOwnProperty("First")) {
-                tableHtml += "<td>" + customers[i].First + "</td>";
-              } else {
-                tableHtml += "<td></td>";
-              }
-              if (customers[i].hasOwnProperty("Last")) {
-                tableHtml += "<td>" + customers[i].Last + "</td>";
-              } else {
-                tableHtml += "<td></td>";
-              }
-              if (customers[i].hasOwnProperty("DOB")) {
-                tableHtml += "<td>" + customers[i].DOB + "</td>";
-              } else {
-                tableHtml += "<td></td>";
-              }
-              if (customers[i].hasOwnProperty("Gender")) {
-                tableHtml += "<td>" + customers[i].Gender + "</td>";
-              } else {
-                tableHtml += "<td></td>";
-              }
-              if (customers[i].hasOwnProperty("Passport_Number")) {
-                tableHtml += "<td>" + customers[i].Passport_Number + "</td>";
-              } else {
-                tableHtml += "<td></td>";
-              }
-              if (customers[i].hasOwnProperty("Phone_Number")) {
-                tableHtml += "<td>" + customers[i].Phone_Number + "</td>";
-              } else {
-                tableHtml += "<td></td>";
-              }
-              if (customers[i].hasOwnProperty("Email_Address")) {
-                tableHtml += "<td>" + customers[i].Email_Address + "</td>";
-              } else {
-                tableHtml += "<td></td>";
-              }
-              tableHtml += "<td><button id='deleteCustomer_" + i + "' class='delete-button'>Delete</button></td>";
+            "<tr><th>ID</th><th>First Name</th><th>Last Name</th><th>Date of Birth</th><th>Gender</th><th>Passport Number</th><th>Phone Number</th><th>Email Address</th></tr>";
+          for (let i = 0; i < customers.length; i++) {
+            tableHtml += "<tr>";
+            tableHtml += "<td>" + customers[i].ID + "</td>"; // Use ID field instead of index
+            if (customers[i].hasOwnProperty("First")) {
+              tableHtml += "<td>" + customers[i].First + "</td>";
+            } else {
+              tableHtml += "<td></td>";
+            }
+            if (customers[i].hasOwnProperty("Last")) {
+              tableHtml += "<td>" + customers[i].Last + "</td>";
+            } else {
+              tableHtml += "<td></td>";
+            }
+            if (customers[i].hasOwnProperty("DOB")) {
+              tableHtml += "<td>" + customers[i].DOB + "</td>";
+            } else {
+              tableHtml += "<td></td>";
+            }
+            if (customers[i].hasOwnProperty("Gender")) {
+              tableHtml += "<td>" + customers[i].Gender + "</td>";
+            } else {
+              tableHtml += "<td></td>";
+            }
+            if (customers[i].hasOwnProperty("Passport_Number")) {
+              tableHtml += "<td>" + customers[i].Passport_Number + "</td>";
+            } else {
+              tableHtml += "<td></td>";
+            }
+            if (customers[i].hasOwnProperty("Phone_Number")) {
+              tableHtml += "<td>" + customers[i].Phone_Number + "</td>";
+            } else {
+              tableHtml += "<td></td>";
+            }
+            if (customers[i].hasOwnProperty("Email_Address")) {
+              tableHtml += "<td>" + customers[i].Email_Address + "</td>";
+            } else {
+              tableHtml += "<td></td>";
+            }
+            tableHtml +=
+              "<td><button id='deleteCustomer_" +
+              i +
+              "' class='delete-button'>Delete</button></td>";
             tableHtml += "</tr>";
           }
           tableHtml += "</table>";
@@ -147,34 +155,40 @@
 
       // Send the request
       xhr2.send();
-      document.getElementById("customerTable").addEventListener("click", function (e) {
-      if (e.target && e.target.className == "delete-button") {
-        const customerId = e.target.id.split("_")[1];
+      document
+        .getElementById("customerTable")
+        .addEventListener("click", function (e) {
+          if (e.target && e.target.className == "delete-button") {
+            const row = e.target.parentNode.parentNode;
+            const customerId = row.querySelector("td:first-child").textContent;
 
-        // create a new XMLHttpRequest object
-        const xhr3 = new XMLHttpRequest();
+            // create a new XMLHttpRequest object
+            const xhr3 = new XMLHttpRequest();
 
-        // set the URL and method for the request
-        xhr3.open("POST", "/delete_customer" + encodeURIComponent(customerId), true);
+            // set the URL and method for the request
+            xhr3.open("POST", "/delete_customer", true);
 
-        // set the content type for the request
-        xhr3.setRequestHeader(
-          "Content-Type",
-          "application/x-www-form-urlencoded"
-        );
+            // set the content type for the request
+            xhr3.setRequestHeader(
+              "Content-Type",
+              "application/x-www-form-urlencoded"
+            );
 
-        // define the callback function for the request
-        xhr3.onreadystatechange = function () {
-          if (xhr3.readyState === 4 && xhr3.status === 200) {
-            alert("Customer information deleted successfully");
-            window.location.href = "/";
+            // define the callback function for the request
+            xhr3.onreadystatechange = function () {
+              if (xhr3.readyState === 4 && xhr3.status === 200) {
+                alert("Customer information deleted successfully");
+                window.location.href = "/";
+              }
+            };
+
+            // Create a data string to send with the request
+            const data = "customerId=" + encodeURIComponent(customerId);
+
+            // send the request with the data string
+            xhr3.send(data);
           }
-        };
-
-        // send the request with the data string
-        xhr3.send();
-      }
-    });
+        });
     </script>
   </body>
 </html>

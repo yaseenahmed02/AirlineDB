@@ -84,9 +84,11 @@ def get_customer_data():
 
     return jsonify(data)
 
+
 @app.route('/delete_customer', methods=['POST'])
 def delete_customer():
-    customer_id = request.form['CustomerId']
+    customer_id = request.form['customerId']
+    print(customer_id)
     cnx = pool.get_connection()
     cursor = cnx.cursor()
     query = "DELETE FROM Customer WHERE ID = %s"
@@ -95,6 +97,7 @@ def delete_customer():
     cursor.close()
     cnx.close()
     return "Customer deleted successfully"
+
 
 
 if __name__ == "__main__":

@@ -1,1 +1,1 @@
-Email_Address
+DELETE FROM Customer WHERE ID
