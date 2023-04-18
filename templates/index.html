@@ -1,27 +1,105 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Top Gun</title>
+    <meta charset="UTF-8" />
+    <title>Sign In/Sign Up Form</title>
     <link
       rel="stylesheet"
+      type="text/css"
       href="{{ url_for('static', filename='style.css') }}"
     />
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
   </head>
-  <body style="background-image: url('/templates/airplane.jpg')">
-    <div class="container">
-      <h1>Top Gun</h1>
-      <p>Managing your airline needs</p>
-      <div id="dropdowns">
-        <div class="dropdown">
-          <select id="tables-dropdown">
-            {% for table in tables %}
-            <option value="{{ table }}">{{ table }}</option>
-            {% endfor %}
-          </select>
+  <body>
+    <button id="admin-login">Admin Login</button>
+
+    <div class="container" id="container">
+      <div class="form-container sign-up-container">
+        <form action="./customer.html">
+          <h1>Create Account</h1>
+          <button id="customer-sign-up">Get Started</button>
+        </form>
+      </div>
+      <div class="form-container sign-in-container">
+        <form action="#">
+          <h1>Sign in</h1>
+          <input type="email" placeholder="Email" />
+          <input type="password" placeholder="Password" />
+          <a href="#">Forgot your password?</a>
+          <button>Sign In</button>
+        </form>
+      </div>
+      <div class="overlay-container">
+        <div class="overlay">
+          <div class="overlay-panel overlay-left">
+            <h1>Welcome Back!</h1>
+            <p>Enter your login details!</p>
+            <button class="ghost" id="signIn">Sign In</button>
+          </div>
+          <div class="overlay-panel overlay-right">
+            <h1>First-time Visitor?</h1>
+            <p>It's never been easier to book a flight!</p>
+            <button class="ghost" id="signUp">Sign Up</button>
+          </div>
         </div>
-        <button id="choose-btn">Choose</button>
       </div>
     </div>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+      const signUpButton = document.getElementById("signUp");
+      const signInButton = document.getElementById("signIn");
+      const container = document.getElementById("container");
+      const customerSignUpBtn = document.getElementById("customer-sign-up");
+      const adminLoginBtn = document.getElementById("admin-login");
+
+      adminLoginBtn.addEventListener("click", (event) => {
+        event.preventDefault();
+        window.location.href = "./admin_login.html";
+      });
+
+      signUpButton.addEventListener("click", () => {
+        container.classList.add("right-panel-active");
+      });
+
+      signInButton.addEventListener("click", () => {
+        container.classList.remove("right-panel-active");
+      });
+
+      customerSignUpBtn.addEventListener("click", (event) => {
+        event.preventDefault();
+        window.location.href = "./customer.html";
+      });
+
+      //Handle sign in
+      const actualSignInButton = document.querySelector(
+        ".sign-in-container button"
+      );
+
+      actualSignInButton.addEventListener("click", (event) => {
+        event.preventDefault();
+        const email = document.querySelector(
+          ".sign-in-container input[type='email']"
+        ).value;
+        const password = document.querySelector(
+          ".sign-in-container input[type='password']"
+        ).value;
+
+        fetch("/customer_login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.success) {
+              window.location.href = "/customer_menu.html";
+            } else {
+              alert("Incorrect credentials");
+            }
+          })
+          .catch((error) => console.error(error));
+      });
+    </script>
   </body>
 </html>

@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 import mysql.connector
-from mysql.connector import pooling
+from mysql.connector import pooling, Error
 
 app = Flask(__name__)
 
@@ -31,12 +31,12 @@ def home():
 
 @app.route("/<selected_table>")
 def display_table(selected_table):
-    return render_template(f"{selected_table}.html")
+    return render_template(f"{selected_table}")
+
 
 @app.route('/add_customer_data', methods=['POST'])
 def add_customer_data():
     print(request.form)
-
     # Extract the data from the request
     first = request.form['First']
     middle = request.form['Middle']
@@ -46,17 +46,16 @@ def add_customer_data():
     passport_number = request.form['Passport_Number']
     phone_number = request.form['Phone_Number']
     email_address = request.form['Email_Address']
-
-    # Print the data received
-    print(f"Received data: {first}, {middle}, {last}, {dob}, {gender}, {passport_number}, {phone_number}, {email_address}")
+    password = request.form['Password']
 
     # Get a connection from the pool
     cnx = pool.get_connection()
 
     # Insert the customer data into the database
     cursor = cnx.cursor()
-    query = "INSERT INTO Customer (First, Middle, Last, DOB, Gender, Passport_Number, Phone_Number, Email_Address) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
-    values = (first, middle, last, dob, gender, passport_number, phone_number, email_address)
+    query = "INSERT INTO Customer (First, Middle, Last, DOB, Gender, Passport_Number, Phone_Number, Email_Address, Password) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    values = (first, middle, last, dob, gender, passport_number, phone_number, email_address, password)
+    print(f"Received data: {first}, {middle}, {last}, {dob}, {gender}, {passport_number}, {phone_number}, {email_address}, {password}")
     cursor.execute(query, values)
     cnx.commit()
 
@@ -65,6 +64,31 @@ def add_customer_data():
 
     # Return a success message
     return jsonify({'status': 'success'})
+
+
+@app.route("/customer_login", methods=["POST"])
+def customer_login():
+    email = request.json.get("email")
+    password = request.json.get("password")
+    print("LOGIN FUNCTION CALLED")
+    try:
+        cnx = pool.get_connection()
+
+        cursor = cnx.cursor()
+        query = f"SELECT * FROM Customer WHERE Email_Address='{email}' AND Password='{password}'"
+        cursor.execute(query)
+        customer = cursor.fetchone()
+
+        if customer:
+            return jsonify({"success": True})
+        else:
+            return jsonify({"success": False, "message": "Incorrect credentials"})
+    except Error as e:
+        print("Error while connecting to MySQL using Connection pool ", e)
+    finally:
+        # Release the connection back to the pool
+        cnx.close()
+
 
 from flask import jsonify
 
