@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Flight Information</title>
+    <style>
+      body {
+        font-family: "Roboto", Arial, sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+      }
+
+      #flightTable {
+        max-width: 1000px;
+        margin: 50px auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #ffffff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin: 0 auto;
+      }
+
+      th,
+      td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #cccccc;
+      }
+
+      th {
+        background-color: rgba(43, 170, 255, 0.8);
+        color: #ffffff;
+        font-weight: bold;
+      }
+
+      th.delete-header {
+        background-color: rgba(43, 170, 255, 0.8);
+        color: #ffffff;
+        font-weight: bold;
+        border-top: 2px solid rgba(43, 170, 255, 0.8);
+      }
+
+      tr:nth-child(even) {
+        background-color: #f5f5f5;
+      }
+
+      .delete-button {
+        background-color: #e74c3c;
+        color: #ffffff;
+        border: none;
+        padding: 5px 10px;
+        font-size: 14px;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+
+      .delete-button:hover {
+        background-color: #c0392b;
+      }
+
+      tbody {
+        padding-bottom: 40px;
+      }
+
+      .title {
+        color: rgba(43, 170, 255, 0.8);
+        font-family: Arial, sans-serif;
+        font-size: 2.5em;
+        text-align: center;
+        margin-top: 50px;
+      }
+
+      .flight-list-title {
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1 class="title">Flight Information</h1>
+    <div id="flightTable"></div>
+    <script>
+      // Create a new XMLHttpRequest object
+      const xhr2 = new XMLHttpRequest();
+
+      // Set the URL and method for the request
+      xhr2.open("GET", "/flight_data", true);
+
+      // Define the callback function for the request
+      xhr2.onreadystatechange = function () {
+        if (xhr2.readyState === 4 && xhr2.status === 200) {
+          const flights = JSON.parse(xhr2.responseText);
+          let tableHtml = "<table>";
+          tableHtml +=
+            "<tr><th>Flight Number</th><th>Date</th><th>Number of Passengers</th><th>Number of Crew</th><th>Departure Time</th><th>Arrival Time</th><th>Status</th><th>Tail Number</th><th></th></tr>";
+          for (let i = 0; i < flights.length; i++) {
+            tableHtml += "<tr>";
+            tableHtml += "<td>" + flights[i].Flight_Number + "</td>";
+            tableHtml += "<td>" + flights[i].Date + "</td>";
+            tableHtml += "<td>" + flights[i].Num_Passengers + "</td>";
+            tableHtml += "<td>" + flights[i].Num_Crew + "</td>";
+            tableHtml += "<td>" + flights[i].Departure_Time + "</td>";
+            tableHtml += "<td>" + flights[i].Arrival_Time + "</td>";
+            tableHtml += "<td>" + flights[i].Status + "</td>";
+            tableHtml += "<td>" + flights[i].Tail_Num + "</td>";
+            tableHtml +=
+              "<td><button id='deleteFlight_" +
+              i +
+              "' class='delete-button'>Delete</button></td>";
+            tableHtml += "</tr>";
+          }
+          tableHtml += "</table>";
+          document.getElementById("flightTable").innerHTML = tableHtml;
+        }
+      };
+
+      // Send the request
+      xhr2.send();
+      document
+        .getElementById("flightTable")
+        .addEventListener("click", function (e) {
+          if (e.target && e.target.className == "delete-button") {
+            const row = e.target.parentNode.parentNode;
+            const flightNumber = row.children[0].textContent;
+            const date = row.children[1].textContent;
+
+            // create a new XMLHttpRequest object
+            const xhr3 = new XMLHttpRequest();
+
+            // set the URL and method for the request
+            xhr3.open("POST", "/delete_flight", true);
+
+            // set the content type for the request
+            xhr3.setRequestHeader(
+              "Content-Type",
+              "application/x-www-form-urlencoded"
+            );
+
+            // define the callback function for the request
+            xhr3.onreadystatechange = function () {
+              if (xhr3.readyState === 4 && xhr3.status === 200) {
+                alert("Flight information deleted successfully");
+                window.location.href = "/";
+              }
+            };
+
+            // Create a data string to send with the request
+            const data =
+              "flight_number=" +
+              encodeURIComponent(flightNumber) +
+              "&date=" +
+              encodeURIComponent(date);
+            xhr3.send(data);
+          }
+        });
+    </script>
+  </body>
+</html>

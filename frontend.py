@@ -122,6 +122,46 @@ def delete_customer():
     cnx.close()
     return "Customer deleted successfully"
 
+from datetime import datetime
+
+@app.route('/flight_data')
+def get_flight_data():
+    cnx = pool.get_connection()
+    cursor = cnx.cursor()
+    query = ("SELECT * FROM Flight Order By Flight_Number ASC")
+    cursor.execute(query)
+    data = cursor.fetchall()
+    column_names = [desc[0] for desc in cursor.description]  # Get column names
+    cursor.close()
+    cnx.close()
+
+    # Convert tuples to list of dictionaries
+    data = [dict(zip(column_names, row)) for row in data]
+
+    # Convert timedelta objects to strings
+    for flight in data:
+        flight["Departure_Time"] = str(flight["Departure_Time"])
+        flight["Arrival_Time"] = str(flight["Arrival_Time"])
+
+    return jsonify(data)
+
+
+@app.route('/delete_flight', methods=['POST'])
+def delete_flight():
+    flight_number = request.form.get('flight_number')
+    date = request.form.get('date')
+
+    cnx = pool.get_connection()
+    cursor = cnx.cursor()
+    query = "DELETE FROM Flight WHERE Flight_Number = %s AND Date = %s"
+    cursor.execute(query, (flight_number, date))
+    cnx.commit()
+    cursor.close()
+    cnx.close()
+
+    return "Flight information deleted successfully"
+
+
 
 
 if __name__ == "__main__":

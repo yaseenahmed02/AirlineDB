@@ -83,22 +83,29 @@
           ".sign-in-container input[type='password']"
         ).value;
 
-        fetch("/customer_login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, password }),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            if (data.success) {
-              window.location.href = "/customer_menu.html";
-            } else {
-              alert("Incorrect credentials");
-            }
+        if (email.endsWith("@airline.com")) {
+          // If the email ends with "@airline.com",
+          // redirect to employee.html
+          window.location.href = "/employee_menu.html";
+        } else {
+          // Otherwise, redirect to customer_menu.html
+          fetch("/customer_login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, password }),
           })
-          .catch((error) => console.error(error));
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.success) {
+                window.location.href = "/customer_menu.html";
+              } else {
+                alert("Incorrect credentials");
+              }
+            })
+            .catch((error) => console.error(error));
+        }
       });
     </script>
   </body>

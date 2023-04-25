@@ -217,102 +217,10 @@
           xhr.send(data);
         });
 
-      // Create a new XMLHttpRequest object
-      const xhr2 = new XMLHttpRequest();
+     
+      
 
-      // Set the URL and method for the request
-      xhr2.open("GET", "/customer_data", true);
-
-      // Define the callback function for the request
-      xhr2.onreadystatechange = function () {
-        if (xhr2.readyState === 4 && xhr2.status === 200) {
-          const customers = JSON.parse(xhr2.responseText);
-          let tableHtml = "<table>";
-          tableHtml +=
-            "<tr><th>ID</th><th>First Name</th><th>Last Name</th><th>Date of Birth</th><th>Gender</th><th>Passport Number</th><th>Phone Number</th><th>Email Address</th></tr>";
-          for (let i = 0; i < customers.length; i++) {
-            tableHtml += "<tr>";
-            tableHtml += "<td>" + customers[i].ID + "</td>"; // Use ID field instead of index
-            if (customers[i].hasOwnProperty("First")) {
-              tableHtml += "<td>" + customers[i].First + "</td>";
-            } else {
-              tableHtml += "<td></td>";
-            }
-            if (customers[i].hasOwnProperty("Last")) {
-              tableHtml += "<td>" + customers[i].Last + "</td>";
-            } else {
-              tableHtml += "<td></td>";
-            }
-            if (customers[i].hasOwnProperty("DOB")) {
-              tableHtml += "<td>" + customers[i].DOB + "</td>";
-            } else {
-              tableHtml += "<td></td>";
-            }
-            if (customers[i].hasOwnProperty("Gender")) {
-              tableHtml += "<td>" + customers[i].Gender + "</td>";
-            } else {
-              tableHtml += "<td></td>";
-            }
-            if (customers[i].hasOwnProperty("Passport_Number")) {
-              tableHtml += "<td>" + customers[i].Passport_Number + "</td>";
-            } else {
-              tableHtml += "<td></td>";
-            }
-            if (customers[i].hasOwnProperty("Phone_Number")) {
-              tableHtml += "<td>" + customers[i].Phone_Number + "</td>";
-            } else {
-              tableHtml += "<td></td>";
-            }
-            if (customers[i].hasOwnProperty("Email_Address")) {
-              tableHtml += "<td>" + customers[i].Email_Address + "</td>";
-            } else {
-              tableHtml += "<td></td>";
-            }
-            tableHtml +=
-              "<td><button id='deleteCustomer_" +
-              i +
-              "' class='delete-button'>Delete</button></td>";
-            tableHtml += "</tr>";
-          }
-          tableHtml += "</table>";
-          document.getElementById("customerTable").innerHTML = tableHtml;
-        }
-      };
-
-      // Send the request
-      xhr2.send();
-      document
-        .getElementById("customerTable")
-        .addEventListener("click", function (e) {
-          if (e.target && e.target.className == "delete-button") {
-            const row = e.target.parentNode.parentNode;
-            const customerId = row.querySelector("td:first-child").textContent;
-
-            // create a new XMLHttpRequest object
-            const xhr3 = new XMLHttpRequest();
-
-            // set the URL and method for the request
-            xhr3.open("POST", "/delete_customer", true);
-
-            // set the content type for the request
-            xhr3.setRequestHeader(
-              "Content-Type",
-              "application/x-www-form-urlencoded"
-            );
-
-            // define the callback function for the request
-            xhr3.onreadystatechange = function () {
-              if (xhr3.readyState === 4 && xhr3.status === 200) {
-                alert("Customer information deleted successfully");
-                window.location.href = "/";
-              }
-            };
-
-            // Create a data string to send with the request
-            const data = "customerId=" + encodeURIComponent(customerId);
-            xhr3.send(data);
-          }
-        });
+      
     </script>
   </body>
 </html>
