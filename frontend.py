@@ -33,6 +33,15 @@ def home():
 def display_table(selected_table):
     return render_template(f"{selected_table}")
 
+def encrypt(data):
+  key = "secret"
+  encrypted_data = []
+  for i, char in enumerate(data):
+      key_char = key[i % len(key)]
+      encrypted_char = chr(ord(char) ^ ord(key_char))
+      encrypted_data.append(encrypted_char)
+  encrypted_string = ''.join(encrypted_data)
+  return encrypted_string
 
 @app.route('/add_customer_data', methods=['POST'])
 def add_customer_data():
@@ -46,7 +55,7 @@ def add_customer_data():
     passport_number = request.form['Passport_Number']
     phone_number = request.form['Phone_Number']
     email_address = request.form['Email_Address']
-    password = request.form['Password']
+    password = encrypt(request.form['Password'])
 
     # Get a connection from the pool
     cnx = pool.get_connection()
@@ -57,6 +66,7 @@ def add_customer_data():
     values = (first, middle, last, dob, gender, passport_number, phone_number, email_address, password)
     print(f"Received data: {first}, {middle}, {last}, {dob}, {gender}, {passport_number}, {phone_number}, {email_address}, {password}")
     cursor.execute(query, values)
+
     cnx.commit()
 
     # Release the connection back to the pool
