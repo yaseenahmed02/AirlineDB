@@ -346,7 +346,7 @@ cur.execute('''INSERT INTO Employee (ID, First, Middle, Last, DOB, Gender, Role,
     (66, 'Bryan', 'Robert', 'Cason', '1985-10-21', 'Male', 'Ground Staff', '25', '2015-08-03', 'brcason@airline.com',	'LAX', 'ewjrhf'),
     (67, 'Kathlyn', 'Arden', 'Sandford', '1979-02-26', 'Female', 'Ground Staff', '29', '2016-01-28', 'kasandford@airline.com', 'ATL', 'ahdahd'),
     (68, 'Nelson', NULL, 'Shofield', '1970-01-20', 'Male', 'Ground Staff', '27', '2016-02-06', 'nshofield@airline.com', 'JFK', 'erhjfe'),
-    (69, 'Brian', NULL, 'Goodman', '1960-02-07', 'Male', 'Admin', '100', '2010-02-06', 'bgoodman@airline.com', NULL, 'p[d^dg^[');''')
+    (69, 'Brian', NULL, 'Goodman', '1960-02-07', 'Male', 'Admin', '100', '2010-02-06', 'admin@airline.com', NULL, 'p[d^dg^[');''')
 cur.execute('''INSERT INTO Operates (EID, FNum) VALUES
     (1, '1'),
     (2, '1'),
@@ -557,4 +557,5 @@ cur.execute('''INSERT INTO Employee_Age (DOB, Age) VALUES
     ('1970-01-20', 53);''')
 
 cur.execute('COMMIT;')
+cur.close()
 mydb.close()

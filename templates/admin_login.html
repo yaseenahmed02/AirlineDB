@@ -63,7 +63,7 @@
   <body>
     <h1 class="title">Admin Login</h1>
     <form id="login-form">
-      <label for="username">Username:</label>
+      <label for="username">Email:</label>
       <input type="text" id="username" name="username" /><br /><br />
       <label for="password">Password:</label>
       <input type="password" id="password" name="password" /><br /><br />
@@ -78,11 +78,22 @@
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
 
-        if (username === "admin" && password === "pass") {
-          window.location.href = "./admin_menu.html";
-        } else {
-          alert("Incorrect username or password.");
-        }
+          fetch("/admin_login", {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ username, password }),
+          })
+              .then((response) => response.json())
+              .then((data) => {
+                  if (data.success) {
+                      window.location.href = "/admin_menu.html";
+                  } else {
+                      alert("Incorrect credentials");
+                  }
+              })
+              .catch((error) => console.error(error));
       });
     </script>
   </body>

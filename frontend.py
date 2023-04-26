@@ -1,3 +1,4 @@
+import email
 from flask import Flask, render_template, request, jsonify
 import mysql.connector
 from mysql.connector import pooling, Error
@@ -70,16 +71,16 @@ def add_customer_data():
     cnx.commit()
 
     # Release the connection back to the pool
+    cursor.close()
     cnx.close()
 
     # Return a success message
     return jsonify({'status': 'success'})
 
-
 @app.route("/customer_login", methods=["POST"])
 def customer_login():
     email = request.json.get("email")
-    password = request.json.get("password")
+    password = encrypt(request.json.get("password"))
     print("LOGIN FUNCTION CALLED")
     try:
         cnx = pool.get_connection()
@@ -99,8 +100,28 @@ def customer_login():
         # Release the connection back to the pool
         cnx.close()
 
+@app.route('/admin_login', methods=["POST"])
+def admin_login():
+    email = request.json.get("email")
+    password = encrypt(request.json.get("password"))
+    print("ADMIN LOGIN FUNCTION CALLED")
+    try:
+        cnx = pool.get_connection()
 
-from flask import jsonify
+        cursor = cnx.cursor()
+        query = f"SELECT * FROM Employee WHERE Email_Address='{email}' AND Password='{password}' AND Role='Admin'"
+        cursor.execute(query)
+        customer = cursor.fetchone()
+
+        if customer:
+            return jsonify({"success": True})
+        else:
+            return jsonify({"success": False, "message": "Incorrect credentials"})
+    except Error as e:
+        print("Error while connecting to MySQL using Connection pool ", e)
+    finally:
+        # Release the connection back to the pool
+        cnx.close()
 
 @app.route('/customer_data')
 def get_customer_data():
