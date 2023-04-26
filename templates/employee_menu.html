@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buttons Example</title>
+    <title>Employee Menu</title>
     <style>
         body {
             display: flex;
@@ -12,6 +12,7 @@
             height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
+            flex-direction: column; /* Added */
         }
 
         .button-container {
@@ -33,13 +34,22 @@
             transition: transform 80ms ease-in;
         }
 
-        button:hover {
-            cursor: pointer;
-            transform: scale(1.05);
+            button:hover {
+                cursor: pointer;
+                transform: scale(1.05);
+            }
+
+        .title {
+            color: rgba(43, 170, 255, 0.8);
+            font-family: Arial, sans-serif;
+            font-size: 2.5em;
+            text-align: center;
+            margin-top: 50px;
         }
     </style>
 </head>
 <body>
+    <h1 class="title">Employee Menu</h1> <!-- Moved the title above the buttons -->
     <div class="button-container">
         <button onclick="location.href='customer.html'">Add Customer</button>
         <button onclick="location.href='view_customers.html'">View Customers</button>
