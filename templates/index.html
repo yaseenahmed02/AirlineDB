@@ -49,46 +49,12 @@
       const signInButton = document.getElementById("signIn");
       const container = document.getElementById("container");
       const customerSignUpBtn = document.getElementById("customer-sign-up");
+      const adminLoginBtn = document.getElementById("admin-login");
 
-      document.addEventListener("DOMContentLoaded", () => {
-        const adminLoginBtn = document.querySelector("#adminLoginBtn");
-
-        if (adminLoginBtn) {
-          adminLoginBtn.addEventListener("click", async (event) => {
-            event.preventDefault();
-
-            const emailOrUsernameInput = document.querySelector(
-              "#emailOrUsernameInput"
-            );
-            const passwordInput = document.querySelector("#passwordInput");
-            const emailOrUsername = emailOrUsernameInput.value;
-            const password = passwordInput.value;
-
-            try {
-              const response = await fetch("/admin_login", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  email_or_username: emailOrUsername,
-                  password: password,
-                }),
-              });
-
-              const data = await response.json();
-
-              if (data.success) {
-                window.location.href = "/admin_menu.html";
-              } else {
-                const message = document.querySelector("#message");
-                message.innerText = data.message;
-              }
-            } catch (error) {
-              console.error(error);
-            }
-          });
-        }
+      adminLoginBtn.addEventListener("click", (event) => {
+        event.preventDefault();
+        console.log("Admin Login button clicked!");
+        window.location.href = "./admin_login.html";
       });
 
       signUpButton.addEventListener("click", () => {
