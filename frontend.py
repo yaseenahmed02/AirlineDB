@@ -230,6 +230,9 @@ def add_employee_data():
     hire_date = request.form['Hire_Date']
     email_address = request.form['Email_Address']
     airport_code = request.form['Airport_Code']
+    password = request.form['Password']
+    salt = os.urandom(16).hex()
+    password_hash = hash_password(password, salt)
     
 
     # Get a connection from the pool
@@ -237,9 +240,9 @@ def add_employee_data():
 
     # Insert the customer data into the database
     cursor = cnx.cursor()
-    query = "INSERT INTO Employee (First, Middle, Last, DOB, Gender, Role, Wage, Hire_Date, Email_Address, Airport_Code, Password) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-    values = (first, middle, last, dob, gender, role, wage, hire_date, email_address, airport_code)
-    print(f"Received data: {first}, {middle}, {last}, {dob}, {gender}, {role}, {wage}, {hire_date}, {email_address}, {airport_code}, {Password}")
+    query = "INSERT INTO Employee (First, Middle, Last, DOB, Gender, Role, Wage, Hire_Date, Email_Address, Airport_Code, Password, Salt) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    values = (first, middle, last, dob, gender, role, wage, hire_date, email_address, airport_code, password_hash, salt)
+    print(f"Received data: {first}, {middle}, {last}, {dob}, {gender}, {role}, {wage}, {hire_date}, {email_address}, {airport_code}, {password}")
     cursor.execute(query, values)
 
     cnx.commit()

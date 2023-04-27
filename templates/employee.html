@@ -136,18 +136,20 @@
         <input type="date" id="DOB" name="DOB" required /><br /><br />
         <label for="Gender">Gender:</label>
         <input type="text" id="Gender" name="Gender" /><br /><br />
-        <label for="Passport_Number">Passport Number:</label>
-        <input type="text"
-               id="Passport_Number"
-               name="Passport_Number" required /><br /><br />
-        <label for="Phone_Number">Phone Number:</label>
-        <input type="text" id="Phone_Number" name="Phone_Number" required /><br /><br />
+        <label for="Role">Role:</label>
+        <input type="text" id="Role" name="Role" required /><br /><br />
+        <label for="Wage">Wage:</label>
+        <input type="number" id="Wage" name="Wage" required /><br /><br />
+        <label for="Hire_Date">Hire Date:</label>
+        <input type="date" id="Hire_Date" name="Hire_Date" required /><br /><br />
         <label for="Email_Address">Email Address:</label>
         <input type="email" id="Email_Address" name="Email_Address" required /><br /><br />
+        <label for="Airport_Code">Airport Code:</label>
+        <input type="text" id="Airport_Code" name="Airport_Code" /><br /><br />
         <label for="Password">Password:</label>
         <input type="password" id="Password" name="Password" required /><br /><br />
 
-        <button type="submit">Sign Up</button>
+        <button type="submit">Add Employee</button>
     </form>
     <div id="customerTable"></div>
     <script>
@@ -159,21 +161,22 @@
 
           // Get the values from the form
           const first = document.querySelector("#First").value;
-          const middle = document.querySelector("#Middle").value;
+          const middle = document.querySelector("#Middle").value
           const last = document.querySelector("#Last").value;
           const dob = document.querySelector("#DOB").value;
           const gender = document.querySelector("#Gender").value;
-          const passport_number =
-            document.querySelector("#Passport_Number").value;
-          const phone_number = document.querySelector("#Phone_Number").value;
+          const role = document.querySelector("#Role").value;
+          const wage = document.querySelector("#Wage").value;
+          const hire_date = document.querySelector("#Hire_Date").value;
           const email_address = document.querySelector("#Email_Address").value;
+          const airport_code = document.querySelector("#Airport_Code").value;
           const password = document.querySelector("#Password").value;
 
           // Create a new XMLHttpRequest object
           const xhr = new XMLHttpRequest();
 
           // Set the URL and method for the request
-          xhr.open("POST", "/add_customer_data", true);
+          xhr.open("POST", "/add_employee_data", true);
 
           // Set the content type for the request
           xhr.setRequestHeader(
@@ -184,7 +187,7 @@
           // Define the callback function for the request
           xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
-              alert("Customer information added successfully");
+              alert("Employee information added successfully");
               window.location.href = "/";
             }
           };
@@ -201,12 +204,16 @@
             encodeURIComponent(dob) +
             "&Gender=" +
             encodeURIComponent(gender) +
-            "&Passport_Number=" +
-            encodeURIComponent(passport_number) +
-            "&Phone_Number=" +
-            encodeURIComponent(phone_number) +
+            "&Role=" +
+            encodeURIComponent(role) +
+            "&Wage=" +
+            encodeURIComponent(wage) +
+            "&Hire_Date=" +
+            encodeURIComponent(hire_date) +
             "&Email_Address=" +
             encodeURIComponent(email_address) +
+            "&Airport_Code=" +
+            encodeURIComponent(airport_code) +
             "&Password=" +
             encodeURIComponent(password);
 
