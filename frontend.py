@@ -77,6 +77,40 @@ def add_customer_data():
     # Return a success message
     return jsonify({'status': 'success'})
 
+@app.route('/add_employee_data', methods=['POST'])
+def add_employee_data():
+    print(request.form)
+    # Extract the data from the request
+    first = request.form['First']
+    middle = request.form['Middle']
+    last = request.form['Last']
+    dob = request.form['DOB']
+    gender = request.form['Gender']
+    role = request.form['Role']
+    wage = request.form['Wage']
+    hire_date = request.form['Hire_Date']
+    email_address = request.form['Email_Address']
+    airport_code = encrypt(request.form['Airport_Code'])
+
+    # Get a connection from the pool
+    cnx = pool.get_connection()
+
+    # Insert the customer data into the database
+    cursor = cnx.cursor()
+    query = "INSERT INTO Employee (First, Middle, Last, DOB, Gender, Role, Wage, Hire_Date, Email_Address, Airport_Code) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    values = (first, middle, last, dob, gender, role, wage, hire_date, email_address, airport_code)
+    print(f"Received data: {first}, {middle}, {last}, {dob}, {gender}, {role}, {wage}, {hire_date}, {email_address}, {airport_code}")
+    cursor.execute(query, values)
+
+    cnx.commit()
+
+    # Release the connection back to the pool
+    cursor.close()
+    cnx.close()
+
+    # Return a success message
+    return jsonify({'status': 'success'})
+
 @app.route("/customer_login", methods=["POST"])
 def customer_login():
     email = request.json.get("email")
@@ -139,6 +173,22 @@ def get_customer_data():
 
     return jsonify(data)
 
+@app.route('/employee_data')
+def get_employee_data():
+    cnx = pool.get_connection()
+    cursor = cnx.cursor()
+    query = ("SELECT * FROM Employee")
+    cursor.execute(query)
+    data = cursor.fetchall()
+    column_names = [desc[0] for desc in cursor.description]  # Get column names
+    cursor.close()
+    cnx.close()
+
+    # Convert tuples to list of dictionaries
+    data = [dict(zip(column_names, row)) for row in data]
+
+    return jsonify(data)
+
 
 @app.route('/delete_customer', methods=['POST'])
 def delete_customer():
@@ -152,6 +202,19 @@ def delete_customer():
     cursor.close()
     cnx.close()
     return "Customer deleted successfully"
+
+@app.route('/delete_employee', methods=['POST'])
+def delete_employee():
+    employee_id = request.form['employeeId']
+    print(employee_id)
+    cnx = pool.get_connection()
+    cursor = cnx.cursor()
+    query = "DELETE FROM Employee WHERE ID = %s"
+    cursor.execute(query, (employee_id,))
+    cnx.commit()
+    cursor.close()
+    cnx.close()
+    return "Employee deleted successfully"
 
 from datetime import datetime
 
