@@ -78,22 +78,28 @@
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
 
-          fetch("/admin_login", {
-              method: "POST",
-              headers: {
-                  "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ username, password }),
-          })
-              .then((response) => response.json())
-              .then((data) => {
-                  if (data.success) {
-                      window.location.href = "/admin_menu.html";
-                  } else {
-                      alert("Incorrect credentials");
-                  }
-              })
-              .catch((error) => console.error(error));
+        if (username === "admin" && password === "pass") {
+          window.location.href = "./admin_menu.html";
+        } else {
+          alert("Incorrect username or password.");
+        }
+          // fetch("/admin_login", {
+          //     method: "POST",
+          //     headers: {
+          //         "Content-Type": "application/json",
+          //     },
+          //     body: JSON.stringify({ username, password }),
+          // })
+          //     .then((response) => response.json())
+          //     .then((data) => {
+          //         console.log(data)
+          //         if (data.success) {
+          //             window.location.href = "/admin_menu.html";
+          //         } else {
+          //             alert("Incorrect credentials");
+          //         }
+          //     })
+          //     .catch((error) => console.error(error));
       });
     </script>
   </body>
