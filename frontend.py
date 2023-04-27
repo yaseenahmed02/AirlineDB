@@ -229,16 +229,17 @@ def add_employee_data():
     wage = request.form['Wage']
     hire_date = request.form['Hire_Date']
     email_address = request.form['Email_Address']
-    airport_code = encrypt(request.form['Airport_Code'])
+    airport_code = request.form['Airport_Code']
+    
 
     # Get a connection from the pool
     cnx = pool.get_connection()
 
     # Insert the customer data into the database
     cursor = cnx.cursor()
-    query = "INSERT INTO Employee (First, Middle, Last, DOB, Gender, Role, Wage, Hire_Date, Email_Address, Airport_Code) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    query = "INSERT INTO Employee (First, Middle, Last, DOB, Gender, Role, Wage, Hire_Date, Email_Address, Airport_Code, Password) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
     values = (first, middle, last, dob, gender, role, wage, hire_date, email_address, airport_code)
-    print(f"Received data: {first}, {middle}, {last}, {dob}, {gender}, {role}, {wage}, {hire_date}, {email_address}, {airport_code}")
+    print(f"Received data: {first}, {middle}, {last}, {dob}, {gender}, {role}, {wage}, {hire_date}, {email_address}, {airport_code}, {Password}")
     cursor.execute(query, values)
 
     cnx.commit()
