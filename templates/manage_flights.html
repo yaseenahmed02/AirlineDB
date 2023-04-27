@@ -1,0 +1,289 @@
+<html>
+  <head>
+    <title>New Flight Information</title>
+    <style>
+      body {
+        font-family: "Roboto", Arial, sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+      }
+
+      form {
+        max-width: 600px;
+        margin: 50px auto;
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #333333;
+      }
+
+      input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #cccccc;
+        border-radius: 3px;
+        margin-bottom: 20px;
+        font-size: 14px;
+      }
+
+      button[type="submit"] {
+        width: 100%;
+        background-color: rgba(43,170,255,0.8);
+        color: #ffffff;
+        border: none;
+        padding: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+
+      button[type="submit"]:hover {
+        background-color: rgba(43,170,255,0.8);
+      }
+
+      #flightTable {
+        max-width: 800px;
+        margin: 50px auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #ffffff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin: 0 auto;
+      }
+
+      th,
+      td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #cccccc;
+      }
+
+      th {
+        background-color: rgba(43,170,255,0.8);
+        color: #ffffff;
+        font-weight: bold;
+      }
+
+      th.delete-header {
+        background-color: rgba(43,170,255,0.8);
+        color: #ffffff;
+        font-weight: bold;
+        border-top: 2px solid rgba(43,170,255,0.8);
+      }
+
+      tr:nth-child(even) {
+        background-color: #f5f5f5;
+      }
+
+      .delete-button {
+        background-color: #e74c3c;
+        color: #ffffff;
+        border: none;
+        padding: 5px 10px;
+        font-size: 14px;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+
+      .delete-button:hover {
+        background-color: #c0392b;
+      }
+
+      tbody {
+        padding-bottom: 40px;
+      }
+
+      .title {
+        color: rgba(43,170,255,0.8);
+        font-family: Arial, sans-serif;
+        font-size: 2.5em;
+        text-align: center;
+        margin-top: 50px;
+      }
+
+      .flight-list-title {
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="title">Flight Details</h1>
+    <div id="flightTable"></div>
+<form id="flightForm">
+      <label for="Flight_Number">Flight Number:</label>
+      <input type="text" id="Flight_Number" name="Flight_Number" required>
+
+      <label for="Date">Date:</label>
+      <input type="date" id="Date" name="Date">
+
+      <label for="Num_Passengers">Number of Passengers:</label>
+      <input type="number" id="Num_Passengers" name="Num_Passengers" required>
+
+      <label for="Num_Crew">Number of Crew:</label>
+      <input type="number" id="Num_Crew" name="Num_Crew" required>
+
+      <label for="Departure_Time">Departure Time:</label>
+      <input type="time" id="Departure_Time" name="Departure_Time">
+
+      <label for="Arrival_Time">Arrival Time:</label>
+      <input type="time" id="Arrival_Time" name="Arrival_Time">
+
+      <label for="Status">Status:</label>
+      <input type="text" id="Status" name="Status">
+
+      <label for="Tail_Num">Tail Number:</label>
+      <input type="text" id="Tail_Num" name="Tail_Num">
+
+      <button type="submit">Submit</button>
+    </form>
+    <script>
+      document.getElementById("flightForm").addEventListener("submit", function (event) {
+        // Prevent the form from submitting normally
+        event.preventDefault();
+
+        // Get the values from the form
+        const flight_number = document.querySelector("#Flight_Number").value;
+        const date = document.querySelector("#Date").value;
+        const num_passengers = document.querySelector("#Num_Passengers").value;
+        const num_crew = document.querySelector("#Num_Crew").value;
+        const departure_time = document.querySelector("#Departure_Time").value;
+        const arrival_time = document.querySelector("#Arrival_Time").value;
+        const status = document.querySelector("#Status").value;
+        const tail_num = document.querySelector('#Tail_Num').value;
+
+        // Create a new XMLHttpRequest object
+        const xhr = new XMLHttpRequest();
+
+        // Set the URL and method for the request
+        xhr.open("POST", "/add_flight_data", true);
+
+          // Set the content type for the request
+          xhr.setRequestHeader(
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          );
+
+          // Define the callback function for the request
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+              alert("Flight information added successfully");
+              window.location.href = "/";
+            }
+          };
+
+          // Create a data string to send with the request
+          const data =
+            "Flight_Number=" +
+            encodeURIComponent(flight_number) +
+            "&Date=" +
+            encodeURIComponent(date) +
+            "&Num_Passengers=" +
+            encodeURIComponent(num_passengers) +
+            "&Num_Crew=" +
+            encodeURIComponent(num_crew) +
+            "&Departure_Time=" +
+            encodeURIComponent(departure_time) +
+            "&Arrival_Time=" +
+            encodeURIComponent(arrival_time) +
+            "&Status=" +
+            encodeURIComponent(status) +
+            "&Tail_Num=" +
+            encodeURIComponent(tail_num);
+
+          //alert("Data to be sent in encoded form: " + data);
+          // Send the request with the data string
+          xhr.send(data);
+        });
+
+
+       // Create a new XMLHttpRequest object
+       const xhr2 = new XMLHttpRequest();
+
+        // Set the URL and method for the request
+        xhr2.open("GET", "/flight_data", true);
+
+        // Define the callback function for the request
+        xhr2.onreadystatechange = function () {
+        if (xhr2.readyState === 4 && xhr2.status === 200) {
+            const flights = JSON.parse(xhr2.responseText);
+            let tableHtml = "<table>";
+            tableHtml +=
+            "<tr><th>Flight Number</th><th>Date</th><th>Number of Passengers</th><th>Number of Crew</th><th>Departure Time</th><th>Arrival Time</th><th>Status</th><th>Tail Number</th><th></th></tr>";
+            for (let i = 0; i < flights.length; i++) {
+            tableHtml += "<tr>";
+            tableHtml += "<td>" + flights[i].Flight_Number + "</td>";
+            tableHtml += "<td>" + flights[i].Date + "</td>";
+            tableHtml += "<td>" + flights[i].Num_Passengers + "</td>";
+            tableHtml += "<td>" + flights[i].Num_Crew + "</td>";
+            tableHtml += "<td>" + flights[i].Departure_Time + "</td>";
+            tableHtml += "<td>" + flights[i].Arrival_Time + "</td>";
+            tableHtml += "<td>" + flights[i].Status + "</td>";
+            tableHtml += "<td>" + flights[i].Tail_Num + "</td>";
+            tableHtml +=
+                "<td><button id='deleteFlight_" +
+                i +
+                "' class='delete-button'>Delete</button></td>";
+            tableHtml += "</tr>";
+            }
+            tableHtml += "</table>";
+            document.getElementById("flightTable").innerHTML = tableHtml;
+        }
+        };
+
+        // Send the request
+        xhr2.send();
+        document
+        .getElementById("flightTable")
+        .addEventListener("click", function (e) {
+            if (e.target && e.target.className == "delete-button") {
+            const row = e.target.parentNode.parentNode;
+            const flightNumber = row.children[0].textContent;
+            const date = row.children[1].textContent;
+
+            // create a new XMLHttpRequest object
+            const xhr3 = new XMLHttpRequest();
+
+            // set the URL and method for the request
+            xhr3.open("POST", "/delete_flight", true);
+
+            // set the content type for the request
+            xhr3.setRequestHeader(
+                "Content-Type",
+                "application/x-www-form-urlencoded"
+            );
+
+            // define the callback function for the request
+            xhr3.onreadystatechange = function () {
+                if (xhr3.readyState === 4 && xhr3.status === 200) {
+                alert("Flight information deleted successfully");
+                window.location.href = "/";
+                }
+            };
+
+            // Create a data string to send with the request
+            const data =
+                "flight_number=" +
+                encodeURIComponent(flightNumber) +
+                "&date=" +
+                encodeURIComponent(date);
+            xhr3.send(data);
+            }
+        });
+    </script>
+  </body>
+</html>

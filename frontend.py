@@ -111,8 +111,6 @@ def hash_password(password, salt):
     return hashlib.sha256(password.encode('utf-8') + salt.encode('utf-8')).hexdigest()
 
 
-
-
 @app.route('/admin_login', methods=["POST"])
 def admin_login():
     email_or_username = request.json.get("email_or_username")
@@ -178,6 +176,38 @@ def delete_customer():
     return "Customer deleted successfully"
 
 from datetime import datetime
+
+@app.route('/add_flight_data', methods=['POST'])
+def add_flight_data():
+    print(request.form)
+    # Extract the data from the request
+    flight_number = request.form['Flight_Number']
+    date = request.form['Date']
+    num_passengers = request.form['Num_Passengers']
+    num_crew = request.form['Num_Crew']
+    departure_time = request.form['Departure_Time']
+    arrival_time = request.form['Arrival_Time']
+    status = request.form['Status']
+    tail_num = request.form['Tail_Num']
+
+    # Get a connection from the pool
+    cnx = pool.get_connection()
+
+    # Insert the customer data into the database
+    cursor = cnx.cursor()
+    query = "INSERT INTO Flight (Flight_Number, Date, Num_Passengers, Num_Crew, Departure_Time, Arrival_Time, Status, Tail_Num) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+    values = (flight_number, date, num_passengers, num_crew, departure_time, arrival_time, status, tail_num)
+    print(f"Received data: {flight_number}, {date}, {num_passengers}, {num_crew}, {departure_time}, {arrival_time}, {status}, {tail_num}")
+    cursor.execute(query, values)
+
+    cnx.commit()
+
+    # Release the connection back to the pool
+    cursor.close()
+    cnx.close()
+
+    # Return a success message
+    return jsonify({'status': 'success'})
 
 @app.route('/flight_data')
 def get_flight_data():
