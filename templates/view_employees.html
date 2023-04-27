@@ -124,14 +124,48 @@
   <body>
     <h1 class="title">Employee Details</h1>
     <div id="employeeTable"></div>
-    <script>
-      document
-        .getElementById("employeeTable")
-        .addEventListener("submit", function (event) {
-          //alert("Button pressed");
+    <form id="employeeForm">
+        <label for="First">First name:</label>
+        <input type="text" id="First" name="First" required>
+  
+        <label for="Middle">Middle name:</label>
+        <input type="text" id="Middle" name="Middle">
+  
+        <label for="Last">Last name:</label>
+        <input type="text" id="Last" name="Last" required>
+  
+        <label for="DOB">Date of birth:</label>
+        <input type="date" id="DOB" name="DOB" required>
+  
+        <label for="Gender">Gender:</label>
+        <select id="Gender" name="Gender" required>
+          <option value="M">Male</option>
+          <option value="F">Female</option>
+          <option value="O">Other</option>
+        </select>
+  
+        <label for="Role">Role:</label>
+        <input type="text" id="Role" name="Role" required>
+  
+        <label for="Wage">Wage:</label>
+        <input type="number" id="Wage" name="Wage" required>
+  
+        <label for="Hire_Date">Hire date:</label>
+        <input type="date" id="Hire_Date" name="Hire_Date" required>
+  
+        <label for="Email_Address">Email address:</label>
+        <input type="email" id="Email_Address" name="Email_Address" required>
+  
+        <label for="Airport_Code">Airport code:</label>
+        <input type="text" id="Airport_Code" name="Airport_Code" required>
+  
+        <button type="submit">Submit</button>
+      </form>
+      <script>
+        document.getElementById("employeeForm").addEventListener("submit", function (event) {
           // Prevent the form from submitting normally
           event.preventDefault();
-
+  
           // Get the values from the form
           const first = document.querySelector("#First").value;
           const middle = document.querySelector("#Middle").value;
@@ -143,10 +177,10 @@
           const hire_date = document.querySelector('#Hire_Date').value;
           const email_address = document.querySelector("#Email_Address").value;
           const airport_code = document.querySelector("#Airport_Code").value;
-
+  
           // Create a new XMLHttpRequest object
           const xhr = new XMLHttpRequest();
-
+  
           // Set the URL and method for the request
           xhr.open("POST", "/add_employee_data", true);
 
