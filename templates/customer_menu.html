@@ -2,12 +2,58 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Customer Menu</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            flex-direction: column; /* Added */
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        button {
+            border-radius: 20px;
+            border: 1px solid #2baaff;
+            background-color: #2baaff;
+            color: #FFFFFF;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 12px 45px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: transform 80ms ease-in;
+        }
+
+            button:hover {
+                cursor: pointer;
+                transform: scale(1.05);
+            }
+
+        .title {
+            color: rgba(43, 170, 255, 0.8);
+            font-family: Arial, sans-serif;
+            font-size: 2.5em;
+            text-align: center;
+            margin-top: 50px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Customer menu here</h1>
-    
+    <h1 class="title">Customer Menu</h1> <!-- Moved the title above the buttons -->
+    <div class="button-container">
+        <button onclick="location.href='view_tickets.html'">View Tickets</button>
+        <button onclick="location.hred='view_luggage.html'">View Luggage</button>
+        <button onclick="location.href='customer_change_password.html'">Change Password</button>
+    </div>
 </body>
 </html>
