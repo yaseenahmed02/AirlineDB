@@ -1,0 +1,303 @@
+<html>
+  <head>
+    <title>New Employee Information</title>
+    <style>
+      body {
+        font-family: "Roboto", Arial, sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+      }
+
+      form {
+        max-width: 600px;
+        margin: 50px auto;
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #333333;
+      }
+
+      input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #cccccc;
+        border-radius: 3px;
+        margin-bottom: 20px;
+        font-size: 14px;
+      }
+
+      button[type="submit"] {
+        width: 100%;
+        background-color: rgba(43,170,255,0.8);
+        color: #ffffff;
+        border: none;
+        padding: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+
+      button[type="submit"]:hover {
+        background-color: rgba(43,170,255,0.8);
+      }
+
+      #employeeTable {
+        max-width: 800px;
+        margin: 50px auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #ffffff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin: 0 auto;
+      }
+
+      th,
+      td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #cccccc;
+      }
+
+      th {
+        background-color: rgba(43,170,255,0.8);
+        color: #ffffff;
+        font-weight: bold;
+      }
+
+      th.delete-header {
+        background-color: rgba(43,170,255,0.8);
+        color: #ffffff;
+        font-weight: bold;
+        border-top: 2px solid rgba(43,170,255,0.8);
+      }
+
+      tr:nth-child(even) {
+        background-color: #f5f5f5;
+      }
+
+      .delete-button {
+        background-color: #e74c3c;
+        color: #ffffff;
+        border: none;
+        padding: 5px 10px;
+        font-size: 14px;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+
+      .delete-button:hover {
+        background-color: #c0392b;
+      }
+
+      tbody {
+        padding-bottom: 40px;
+      }
+
+      .title {
+        color: rgba(43,170,255,0.8);
+        font-family: Arial, sans-serif;
+        font-size: 2.5em;
+        text-align: center;
+        margin-top: 50px;
+      }
+
+      .employee-list-title {
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="title">Employee Details</h1>
+    <div id="employeeTable"></div>
+    <script>
+      document
+        .getElementById("employeeTable")
+        .addEventListener("submit", function (event) {
+          //alert("Button pressed");
+          // Prevent the form from submitting normally
+          event.preventDefault();
+
+          // Get the values from the form
+          const first = document.querySelector("#First").value;
+          const middle = document.querySelector("#Middle").value;
+          const last = document.querySelector("#Last").value;
+          const dob = document.querySelector("#DOB").value;
+          const gender = document.querySelector("#Gender").value;
+          const role = document.querySelector("#Role").value;
+          const wage = document.querySelector("#Wage").value;
+          const hire_date = document.querySelector('#Hire_Date').value;
+          const email_address = document.querySelector("#Email_Address").value;
+          const airport_code = document.querySelector("#Airport_Code").value;
+
+          // Create a new XMLHttpRequest object
+          const xhr = new XMLHttpRequest();
+
+          // Set the URL and method for the request
+          xhr.open("POST", "/add_employee_data", true);
+
+          // Set the content type for the request
+          xhr.setRequestHeader(
+            "Content-Type",
+            "application/x-www-form-urlencoded"
+          );
+
+          // Define the callback function for the request
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+              alert("Employee information added successfully");
+              window.location.href = "/";
+            }
+          };
+
+          // Create a data string to send with the request
+          const data =
+            "First=" +
+            encodeURIComponent(first) +
+            "&Middle=" +
+            encodeURIComponent(middle) +
+            "&Last=" +
+            encodeURIComponent(last) +
+            "&DOB=" +
+            encodeURIComponent(dob) +
+            "&Gender=" +
+            encodeURIComponent(gender) +
+            "&Role=" +
+            encodeURIComponent(role) +
+            "&Wage=" +
+            encodeURIComponent(wage) +
+            "&Hire_Date=" +
+            encodeURIComponent(hire_date) +
+            "&Email_Address=" +
+            encodeURIComponent(email_address) +
+            "&Airport_Code=" +
+            encodeURIComponent(airport_code);
+
+          //alert("Data to be sent in encoded form: " + data);
+          // Send the request with the data string
+          xhr.send(data);
+        });
+
+      // Create a new XMLHttpRequest object
+      const xhr2 = new XMLHttpRequest();
+
+      // Set the URL and method for the request
+      xhr2.open("GET", "/employee_data", true);
+
+      // Define the callback function for the request
+      xhr2.onreadystatechange = function () {
+        if (xhr2.readyState === 4 && xhr2.status === 200) {
+          const employee = JSON.parse(xhr2.responseText);
+          let tableHtml = "<table>";
+          tableHtml +=
+            "<tr><th>ID</th><th>First Name</th><th>Last Name</th><th>Date of Birth</th><th>Gender</th><th>Role</th><th>Wage</th><th>Hire Date</th><th>Email Address</th><th>Airport Code</th></tr>";
+          for (let i = 0; i < employee.length; i++) {
+            tableHtml += "<tr>";
+            tableHtml += "<td>" + employee[i].ID + "</td>"; // Use ID field instead of index
+            if (employee[i].hasOwnProperty("First")) {
+              tableHtml += "<td>" + employee[i].First + "</td>";
+            } else {
+              tableHtml += "<td></td>";
+            }
+            if (employee[i].hasOwnProperty("Last")) {
+              tableHtml += "<td>" + employee[i].Last + "</td>";
+            } else {
+              tableHtml += "<td></td>";
+            }
+            if (employee[i].hasOwnProperty("DOB")) {
+              tableHtml += "<td>" + employee[i].DOB + "</td>";
+            } else {
+              tableHtml += "<td></td>";
+            }
+            if (employee[i].hasOwnProperty("Gender")) {
+              tableHtml += "<td>" + employee[i].Gender + "</td>";
+            } else {
+              tableHtml += "<td></td>";
+            }
+            if (employee[i].hasOwnProperty("Role")) {
+              tableHtml += "<td>" + employee[i].Role + "</td>";
+            } else {
+              tableHtml += "<td></td>";
+            }
+            if (employee[i].hasOwnProperty("Wage")) {
+              tableHtml += "<td>" + employee[i].Wage + "</td>";
+            } else {
+              tableHtml += "<td></td>";
+            }
+            if (employee[i].hasOwnProperty("Hire_Date")) {
+              tableHtml += "<td>" + employee[i].Hire_Date + "</td>";
+            } else {
+              tableHtml += "<td></td>";
+            }
+            if (employee[i].hasOwnProperty("Email_Address")) {
+              tableHtml += "<td>" + employee[i].Email_Address + "</td>";
+            } else {
+              tableHtml += "<td></td>";
+            }
+            if (employee[i].hasOwnProperty("Airport_Code")) {
+              tableHtml += "<td>" + employee[i].Airport_Code + "</td>";
+            } else {
+              tableHtml += "<td></td>";
+            }
+            tableHtml +=
+              "<td><button id='deleteEmployee_" +
+              i +
+              "' class='delete-button'>Delete</button></td>";
+            tableHtml += "</tr>";
+          }
+          tableHtml += "</table>";
+          document.getElementById("employeeTable").innerHTML = tableHtml;
+        }
+      };
+
+      // Send the request
+      xhr2.send();
+      document
+        .getElementById("employeeTable")
+        .addEventListener("click", function (e) {
+          if (e.target && e.target.className == "delete-button") {
+            const row = e.target.parentNode.parentNode;
+            const employeeId = row.querySelector("td:first-child").textContent;
+
+            // create a new XMLHttpRequest object
+            const xhr3 = new XMLHttpRequest();
+
+            // set the URL and method for the request
+            xhr3.open("POST", "/delete_employee", true);
+
+            // set the content type for the request
+            xhr3.setRequestHeader(
+              "Content-Type",
+              "application/x-www-form-urlencoded"
+            );
+
+            // define the callback function for the request
+            xhr3.onreadystatechange = function () {
+              if (xhr3.readyState === 4 && xhr3.status === 200) {
+                alert("Employee information deleted successfully");
+                window.location.href = "/";
+              }
+            };
+
+            // Create a data string to send with the request
+            const data = "employeeId=" + encodeURIComponent(employeeId);
+            xhr3.send(data);
+          }
+        });
+    </script>
+  </body>
+</html>
