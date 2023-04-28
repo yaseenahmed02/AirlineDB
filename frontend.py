@@ -366,6 +366,36 @@ def add_employee_data():
 #         # Release the connection back to the pool
 #         cnx.close()
 
+# @app.route("/admin_change_password", methods=["POST"])
+# def admin_change_password():
+#     email = request.json.get("email")
+#     password = request.json.get("password")
+#     newPassword = request.json.get("newpassword")
+#     print("CHANGE PASSWORD FUNCTION CALLED")
+
+    
+#     try:
+#         cnx = pool.get_connection()
+
+#         cursor = cnx.cursor()
+#         query = f"SELECT * FROM Employee WHERE Email_Address='{email}'"
+#         cursor.execute(query)
+#         customer = cursor.fetchone()
+
+
+#         if customer and hash_password(password, customer[10]) == customer[9]:
+#             query = f"UPDATE Customer SET Password = '{hash_password(newPassword, customer[10])}' WHERE Email_Address='{email}'"
+#             cursor.execute(query)
+#             return jsonify({"success": True})
+#         else:
+#             return jsonify({"success": False, "message": "Incorrect credentials"})
+#     except Error as e:
+#         print("Error while connecting to MySQL using Connection pool ", e)
+#     finally:
+#         # Release the connection back to the pool
+#         cnx.close()
+
+
 @app.route("/employee_change_password", methods=["POST"])
 def employee_change_password():
     email = request.json.get("email")
