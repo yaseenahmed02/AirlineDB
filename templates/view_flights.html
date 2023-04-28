@@ -122,43 +122,6 @@
 
       // Send the request
       xhr2.send();
-      document
-        .getElementById("flightTable")
-        .addEventListener("click", function (e) {
-          if (e.target && e.target.className == "delete-button") {
-            const row = e.target.parentNode.parentNode;
-            const flightNumber = row.children[0].textContent;
-            const date = row.children[1].textContent;
-
-            // create a new XMLHttpRequest object
-            const xhr3 = new XMLHttpRequest();
-
-            // set the URL and method for the request
-            xhr3.open("POST", "/delete_flight", true);
-
-            // set the content type for the request
-            xhr3.setRequestHeader(
-              "Content-Type",
-              "application/x-www-form-urlencoded"
-            );
-
-            // define the callback function for the request
-            xhr3.onreadystatechange = function () {
-              if (xhr3.readyState === 4 && xhr3.status === 200) {
-                alert("Flight information deleted successfully");
-                window.location.href = "/";
-              }
-            };
-
-            // Create a data string to send with the request
-            const data =
-              "flight_number=" +
-              encodeURIComponent(flightNumber) +
-              "&date=" +
-              encodeURIComponent(date);
-            xhr3.send(data);
-          }
-        });
     </script>
   </body>
 </html>

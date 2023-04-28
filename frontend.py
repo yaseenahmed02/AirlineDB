@@ -220,12 +220,12 @@ def get_flight_data():
 @app.route('/delete_flight', methods=['POST'])
 def delete_flight():
     flight_number = request.form.get('flight_number')
-    date = request.form.get('date')
+#    date = request.form.get('date')
 
     cnx = pool.get_connection()
     cursor = cnx.cursor()
-    query = "DELETE FROM Flight WHERE Flight_Number = %s AND Date = %s"
-    cursor.execute(query, (flight_number, date))
+    query = "DELETE FROM Flight WHERE Flight_Number = %s"
+    cursor.execute(query, (flight_number,))
     cnx.commit()
     cursor.close()
     cnx.close()

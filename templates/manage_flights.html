@@ -278,9 +278,7 @@
             // Create a data string to send with the request
             const data =
                 "flight_number=" +
-                encodeURIComponent(flightNumber) +
-                "&date=" +
-                encodeURIComponent(date);
+                encodeURIComponent(flightNumber)
             xhr3.send(data);
             }
         });
