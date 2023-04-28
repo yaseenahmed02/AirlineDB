@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ticket Information</title>
+    <style>
+      body {
+        font-family: "Roboto", Arial, sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+      }
+
+      #ticketTable {
+        max-width: 1000px;
+        margin: 50px auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #ffffff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin: 0 auto;
+      }
+
+      th,
+      td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #cccccc;
+      }
+
+      th {
+        background-color: rgba(43, 170, 255, 0.8);
+        color: #ffffff;
+        font-weight: bold;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f5f5f5;
+      }
+
+      tbody {
+        padding-bottom: 40px;
+      }
+
+      .title {
+        color: rgba(43, 170, 255, 0.8);
+        font-family: Arial, sans-serif;
+        font-size: 2.5em;
+        text-align: center;
+        margin-top: 50px;
+      }
+
+      .ticket-list-title {
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1 class="title">Ticket Information</h1>
+    <div id="ticketTable"></div>
+    <script>
+      // Create a new XMLHttpRequest object
+      const xhr2 = new XMLHttpRequest();
+
+      // Set the URL and method for the request
+      xhr2.open("GET", "/ticket_data", true);
+
+      // Define the callback function for the request
+      xhr2.onreadystatechange = function () {
+        if (xhr2.readyState === 4 && xhr2.status === 200) {
+          const tickets = JSON.parse(xhr2.responseText);
+          let tableHtml = "<table>";
+          tableHtml +=
+            "<tr><th>ID</th><th>Class</th><th>Date</th><th>Seat Number</th><th>Number of Bags</th><th>Customer ID</th></tr>";
+          for (let i = 0; i < tickets.length; i++) {
+            tableHtml += "<tr>";
+            tableHtml += "<td>" + tickets[i].ID + "</td>";
+            tableHtml += "<td>" + tickets[i].Class + "</td>";
+            tableHtml += "<td>" + tickets[i].Date + "</td>";
+            tableHtml += "<td>" + tickets[i].Seat_Number + "</td>";
+            tableHtml += "<td>" + tickets[i].Num_Bags + "</td>";
+            tableHtml += "<td>" + tickets[i].Cust_ID + "</td>";
+            //tableHtml += "<td>" + tickets[i].Flight_Number + "</td>";
+            tableHtml += "</tr>";
+          }
+          tableHtml += "</table>";
+          document.getElementById("ticketTable").innerHTML = tableHtml;
+        }
+      };
+
+      // Send the request
+      xhr2.send();
+    </script>
+  </body>
+</html>

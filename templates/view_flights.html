@@ -98,7 +98,7 @@
           const flights = JSON.parse(xhr2.responseText);
           let tableHtml = "<table>";
           tableHtml +=
-            "<tr><th>Flight Number</th><th>Date</th><th>Number of Passengers</th><th>Number of Crew</th><th>Departure Time</th><th>Arrival Time</th><th>Status</th><th>Tail Number</th><th></th></tr>";
+            "<tr><th>Flight Number</th><th>Date</th><th>Number of Passengers</th><th>Number of Crew</th><th>Departure Time</th><th>Arrival Time</th><th>Status</th><th>Tail Number</th></tr>";
           for (let i = 0; i < flights.length; i++) {
             tableHtml += "<tr>";
             tableHtml += "<td>" + flights[i].Flight_Number + "</td>";

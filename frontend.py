@@ -249,6 +249,7 @@ def get_employee_data():
 
     return jsonify(data)
 
+
 @app.route('/delete_employee', methods=['POST'])
 def delete_employee():
     employee_id = request.form['employeeId']
@@ -261,6 +262,40 @@ def delete_employee():
     cursor.close()
     cnx.close()
     return "Employee deleted successfully"
+
+
+@app.route('/ticket_data')
+def get_ticket_data():
+    cnx = pool.get_connection()
+    cursor = cnx.cursor()
+    query = ("SELECT * FROM Ticket")
+    cursor.execute(query)
+    data = cursor.fetchall()
+    column_names = [desc[0] for desc in cursor.description]  # Get column names
+    cursor.close()
+    cnx.close()
+
+    # Convert tuples to list of dictionaries
+    data = [dict(zip(column_names, row)) for row in data]
+
+    return jsonify(data)
+
+
+@app.route('/luggage_data')
+def get_luggage_data():
+    cnx = pool.get_connection()
+    cursor = cnx.cursor()
+    query = ("SELECT * FROM Baggage")
+    cursor.execute(query)
+    data = cursor.fetchall()
+    column_names = [desc[0] for desc in cursor.description]  # Get column names
+    cursor.close()
+    cnx.close()
+
+    # Convert tuples to list of dictionaries
+    data = [dict(zip(column_names, row)) for row in data]
+
+    return jsonify(data)
 
 
 @app.route('/add_employee_data', methods=['POST'])
