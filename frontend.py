@@ -111,34 +111,34 @@ def hash_password(password, salt):
     return hashlib.sha256(password.encode('utf-8') + salt.encode('utf-8')).hexdigest()
 
 
-@app.route('/admin_login', methods=["POST"])
-def admin_login():
-    email_or_username = request.json.get("email_or_username")
-    password = request.json.get("password")
-    print("ADMIN LOGIN FUNCTION CALLED")
-    try:
-        cnx = pool.get_connection()
-        cursor = cnx.cursor()
+# @app.route('/admin_login', methods=["POST"])
+# def admin_login():
+#     email_or_username = request.json.get("email_or_username")
+#     password = request.json.get("password")
+#     print("ADMIN LOGIN FUNCTION CALLED")
+#     try:
+#         cnx = pool.get_connection()
+#         cursor = cnx.cursor()
 
-        if email_or_username == "admin" and password == "pass":
-            return jsonify({"success": True})
+#         if email_or_username == "admin" and password == "pass":
+#             return jsonify({"success": True})
 
-        if not email_or_username.endswith("@airlineadmin.com"):
-            return jsonify({"success": False, "message": "Incorrect credentials"})
+#         if not email_or_username.endswith("@airlineadmin.com"):
+#             return jsonify({"success": False, "message": "Incorrect credentials"})
 
-        query = f"SELECT * FROM Employee WHERE Email_Address='{email_or_username}' AND Role='Admin'"
-        cursor.execute(query)
-        employee = cursor.fetchone()
+#         query = f"SELECT * FROM Employee WHERE Email_Address='{email_or_username}' AND Role='Admin'"
+#         cursor.execute(query)
+#         employee = cursor.fetchone()
 
-        if employee and hash_password(password, employee[13]) == employee[12]:
-            return jsonify({"success": True})
-        else:
-            return jsonify({"success": False, "message": "Incorrect credentials"})
-    except Error as e:
-        print("Error while connecting to MySQL using Connection pool ", e)
-    finally:
-        # Release the connection back to the pool
-        cnx.close()
+#         if employee and hash_password(password, employee[13]) == employee[12]:
+#             return jsonify({"success": True})
+#         else:
+#             return jsonify({"success": False, "message": "Incorrect credentials"})
+#     except Error as e:
+#         print("Error while connecting to MySQL using Connection pool ", e)
+#     finally:
+#         # Release the connection back to the pool
+#         cnx.close()
 
 
 
