@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>New Flight Information</title>
+    <title>Flight Information</title>
     <style>
       body {
         font-family: "Roboto", Arial, sans-serif;
@@ -124,95 +124,9 @@
   <body>
     <h1 class="title">Flight Details</h1>
     <div id="flightTable"></div>
-<form id="flightForm">
-      <label for="Flight_Number">Flight Number:</label>
-      <input type="number" id="Flight_Number" name="Flight_Number" required>
-
-      <label for="Date">Date:</label>
-      <input type="date" id="Date" name="Date">
-
-      <label for="Num_Passengers">Number of Passengers:</label>
-      <input type="number" id="Num_Passengers" name="Num_Passengers" required>
-
-      <label for="Num_Crew">Number of Crew:</label>
-      <input type="number" id="Num_Crew" name="Num_Crew" required>
-
-      <label for="Departure_Time">Departure Time:</label>
-      <input type="time" id="Departure_Time" name="Departure_Time">
-
-      <label for="Arrival_Time">Arrival Time:</label>
-      <input type="time" id="Arrival_Time" name="Arrival_Time">
-
-      <label for="Status">Status:</label>
-      <input type="text" id="Status" name="Status">
-
-      <label for="Tail_Num">Tail Number:</label>
-      <input type="text" id="Tail_Num" name="Tail_Num">
-
-      <button type="submit">Submit</button>
-    </form>
     <script>
-      document.getElementById("flightForm").addEventListener("submit", function (event) {
-        // Prevent the form from submitting normally
-        event.preventDefault();
-
-        // Get the values from the form
-        const flight_number = document.querySelector("#Flight_Number").value;
-        const date = document.querySelector("#Date").value;
-        const num_passengers = document.querySelector("#Num_Passengers").value;
-        const num_crew = document.querySelector("#Num_Crew").value;
-        const departure_time = document.querySelector("#Departure_Time").value;
-        const arrival_time = document.querySelector("#Arrival_Time").value;
-        const status = document.querySelector("#Status").value;
-        const tail_num = document.querySelector('#Tail_Num').value;
-
         // Create a new XMLHttpRequest object
-        const xhr = new XMLHttpRequest();
-
-        // Set the URL and method for the request
-        xhr.open("POST", "/add_flight_data", true);
-
-          // Set the content type for the request
-          xhr.setRequestHeader(
-            "Content-Type",
-            "application/x-www-form-urlencoded"
-          );
-
-          // Define the callback function for the request
-          xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-              alert("Flight information added successfully");
-              window.location.href = "/";
-            }
-          };
-
-          // Create a data string to send with the request
-          const data =
-            "Flight_Number=" +
-            encodeURIComponent(flight_number) +
-            "&Date=" +
-            encodeURIComponent(date) +
-            "&Num_Passengers=" +
-            encodeURIComponent(num_passengers) +
-            "&Num_Crew=" +
-            encodeURIComponent(num_crew) +
-            "&Departure_Time=" +
-            encodeURIComponent(departure_time) +
-            "&Arrival_Time=" +
-            encodeURIComponent(arrival_time) +
-            "&Status=" +
-            encodeURIComponent(status) +
-            "&Tail_Num=" +
-            encodeURIComponent(tail_num);
-
-          //alert("Data to be sent in encoded form: " + data);
-          // Send the request with the data string
-          xhr.send(data);
-        });
-
-
-       // Create a new XMLHttpRequest object
-       const xhr2 = new XMLHttpRequest();
+        const xhr2 = new XMLHttpRequest();
 
         // Set the URL and method for the request
         xhr2.open("GET", "/flight_data", true);
